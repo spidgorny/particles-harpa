@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useContext } from "react";
 import "./App.css";
 import { Emitter } from "./emitter";
 import {
@@ -11,16 +11,15 @@ function App() {
   return (
     <div className="App" style={{ overflow: "hidden" }}>
       <ParticleProvider>
-        <Debug />
-        <svg
-          // viewBox="-100 -100 100 100"
-          style={{ width: "100vw", height: "100vh", backgroundColor: "#444" }}
-        >
-          {/*<g transform="matrix(1 0 0 -1 500 500)">*/}
-          <ShowParticles />
-          {/*</g>*/}
-          <Emitter x={0} y={0} />
-        </svg>
+        <div className="relative">
+          <svg
+            style={{ width: "100vw", height: "100vh", backgroundColor: "#444" }}
+          >
+            <ShowParticles />
+            <Emitter x={0} y={0} />
+          </svg>
+          <Debug />
+        </div>
       </ParticleProvider>
     </div>
   );
@@ -31,7 +30,7 @@ export default App;
 export function Debug() {
   const { particles, renderCycle } = useContext(ParticleContext);
   return (
-    <div>
+    <div className="absolute">
       Particles: {particles.length}, RC: {renderCycle}
     </div>
   );

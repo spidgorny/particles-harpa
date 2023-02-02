@@ -11,11 +11,15 @@ export class Particle {
   pos: Victor;
   vel: Victor;
   color: string;
+  birthTime: number;
+  lifeTime: number;
 
-  constructor(pos, vel, color: string) {
+  constructor(pos, vel, { color, lifeTime }) {
     this.pos = pos;
     this.vel = vel;
     this.color = color;
+    this.birthTime = Date.now();
+    this.lifeTime = lifeTime;
   }
 }
 
@@ -37,37 +41,52 @@ export function ParticleProvider({ children }) {
   const screenX = window.innerWidth / 2;
   const screenY = window.innerHeight / 2;
   const screenRadius = Math.max(screenX, screenY);
-  const zero = new Victor(0, 0);
   const [particles, setParticles] = useState([]);
   const [renderCycle, setRenderCycle] = useState(0);
 
-  const addParticle = (p: Particle) => {
-    setParticles((pList) => [...pList, p]);
-  };
+  const addParticle = useCallback(
+    (p: Particle) => {
+      setParticles((pList) => [...pList, p]);
+    },
+    [setParticles]
+  );
 
-  const move = (pList) => {
+  const move = useCallback((pList) => {
     pList.forEach((p) => {
       p.pos.add(p.vel);
     });
-  };
-  const kill = (pList) => {
+  }, []);
+
+  const kill = useCallback(
+    (pList: Particle[]) => {
+      const zero = new Victor(0, 0);
+      return pList.filter((p) => {
+        return p.pos.distance(zero) < screenRadius;
+      });
+    },
+    [screenRadius]
+  );
+
+  const lifeLimiter = (pList: Particle[]) => {
     return pList.filter((p) => {
-      return p.pos.distance(zero) < screenRadius;
+      let age = Date.now() - p.birthTime;
+      return age < p.lifeTime;
     });
   };
 
-  const loop = () => {
+  const loop = useCallback(() => {
     let pList = [...particles];
     move(pList);
     pList = kill(pList);
+    pList = lifeLimiter(pList);
     setParticles(pList);
     setRenderCycle(renderCycle + 1);
-  };
+  }, [particles, renderCycle, kill, move]);
 
   useEffect(() => {
     const timer = setInterval(loop, 16);
     return () => clearInterval(timer);
-  }, [particles]);
+  }, [particles, loop]);
 
   const value = { particles, setParticles, addParticle, renderCycle };
   return (
