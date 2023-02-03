@@ -1,25 +1,22 @@
 import React, { useContext } from "react";
 import "./App.css";
-import { Emitter } from "./emitter";
+import { Emitter } from "./particles/emitter";
 import {
   ParticleContext,
   ParticleProvider,
   ShowParticles,
-} from "./particle-context";
+} from "./particles/particle-context";
+import {ParticleSvg} from "./particles/particle-svg";
 
 function App() {
   return (
     <div className="App" style={{ overflow: "hidden" }}>
       <ParticleProvider>
-        <div className="relative">
-          <svg
-            style={{ width: "100vw", height: "100vh", backgroundColor: "#444" }}
-          >
+        <ParticleSvg>
             <ShowParticles />
             <Emitter x={0} y={0} />
-          </svg>
-          <Debug />
-        </div>
+        </ParticleSvg>
+        <Debug />
       </ParticleProvider>
     </div>
   );
