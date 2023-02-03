@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/particles-harpa/static/css/main.de93d8de.css",
+    "main.js": "/particles-harpa/static/js/main.6b6efef6.js",
+    "static/js/496.ddff8844.chunk.js": "/particles-harpa/static/js/496.ddff8844.chunk.js",
+    "index.html": "/particles-harpa/index.html",
+    "main.de93d8de.css.map": "/particles-harpa/static/css/main.de93d8de.css.map",
+    "main.6b6efef6.js.map": "/particles-harpa/static/js/main.6b6efef6.js.map",
+    "496.ddff8844.chunk.js.map": "/particles-harpa/static/js/496.ddff8844.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.de93d8de.css",
+    "static/js/main.6b6efef6.js"
+  ]
+}
